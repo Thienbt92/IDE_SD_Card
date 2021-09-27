@@ -20,7 +20,7 @@ public:
     /*-------------------------------------------------------*/
     bool mSD_open(File  *file,const char * path,const char* mode);
     bool mSD_read(File  *file,uint8_t *buffer,uint32_t _size);
-    bool mSD_seek(File *file,uint32_t pos);
+    bool mSD_seek(File *file,uint32_t pos,SeekMode _mode);
     void mSD_close(File  *file);
 };
 

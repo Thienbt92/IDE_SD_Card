@@ -184,17 +184,18 @@ bool mSD_Class::mSD_open(File  *file,const char * path,const char* mode)
 }
 bool mSD_Class::mSD_read(File  *file,uint8_t *buffer,uint32_t _size)
 {
-  if(file->read(buffer,_size)==-1);
+  file->read(buffer,_size);
+  /*if(file->read(buffer,_size)==-1);
   {
     file->close();
     return false;
   }
-  file->close();
+  file->close();*/
   return true;
 }
-bool mSD_Class::mSD_seek(File *file,uint32_t pos)
+bool mSD_Class::mSD_seek(File *file,uint32_t pos,SeekMode _mode)
 {
-  return file->seek(pos);
+  return file->seek(pos,_mode);
 }
 void mSD_Class::mSD_close(File  *file)
 {
