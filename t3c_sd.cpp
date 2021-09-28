@@ -51,6 +51,22 @@ void mSD_Class::mSD_listDirSerial(const char * dirname, uint8_t levels)
     file = root.openNextFile();
   }
 }
+void mSD_Class::mSD_listFile(File  *root,const char * dirname,String *_pathFile)
+{
+  if(!*root) 
+  {
+    *root = SD.open(dirname);
+  }
+  if((root->isDirectory())==false)
+    return;
+
+  File file = root->openNextFile();
+  while(file.isDirectory())
+  {
+    file = root->openNextFile();
+  }
+  *_pathFile = file.name();
+}
 
 bool mSD_Class::mSD_createDir(const char * path)
 {
@@ -174,7 +190,7 @@ bool mSD_Class::mSD_deleteFile(const char * path)
     return false;
   }
 }
-
+/************************************************************************/
 bool mSD_Class::mSD_open(File  *file,const char * path,const char* mode)
 {
   *file = SD.open(path,mode);
