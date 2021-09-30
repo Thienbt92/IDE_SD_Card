@@ -1,4 +1,5 @@
 #include "t3c_sd.h"
+#include <string_process.h>
 
 bool mSD_Class::mSD_begin(uint8_t ssPin, SPIClass &spi, uint32_t frequency, const char * mountpoint, uint8_t max_files,bool format_if_empty)
 {
@@ -51,7 +52,8 @@ void mSD_Class::mSD_listDirSerial(const char * dirname, uint8_t levels)
     file = root.openNextFile();
   }
 }
-void mSD_Class::mSD_listFile(File  *root,const char * dirname,String *_pathFile)
+
+void mSD_Class::mSD_listFile(File  *root,const char * dirname,std::string *_pathFile)
 {
   if(!*root) 
   {
@@ -67,7 +69,32 @@ void mSD_Class::mSD_listFile(File  *root,const char * dirname,String *_pathFile)
   }
   *_pathFile = file.name();
 }
-
+uint16_t mSD_Class::mSD_listFileCount(const char * dirname,const char* typeFile)
+{
+  string_process _STRING;
+  uint16_t _count=0;
+  File root = SD.open(dirname);
+  if(!root)
+    return 0;
+  if(!root.isDirectory())
+    return 0;
+  File file = root.openNextFile();
+  while(file)
+  {
+    if(file.isDirectory()==false)
+    {
+      if(typeFile!="")
+      {
+        if(_STRING.SearchArrayInArray(file.name(),typeFile,1,strlen(file.name()))==true)
+          _count+=1;
+      }
+      else
+        _count+=1;
+    }
+    file = root.openNextFile();
+  }
+  return _count;
+}
 bool mSD_Class::mSD_createDir(const char * path)
 {
   if(debugView==true)

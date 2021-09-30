@@ -13,7 +13,8 @@ public:
     bool mSD_begin(uint8_t ssPin=SS, SPIClass &spi=SPI, uint32_t frequency=4000000, const char * mountpoint="/sd", uint8_t max_files=5, bool format_if_empty=false);
     uint8_t mSD_cardType();
     void mSD_listDirSerial(const char * dirname, uint8_t levels);
-    void mSD_listFile(File  *root,const char * dirname,String *_pathFile);
+    uint16_t mSD_listFileCount(const char * dirname,const char* typeFile);
+    void mSD_listFile(File  *root,const char * dirname,std::string *_pathFile);
     bool mSD_createDir(const char * path);
     bool mSD_removeDir(const char * path);
     bool mSD_writeFileString(const char * path, const char * message);
